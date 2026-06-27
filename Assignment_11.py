@@ -54,6 +54,18 @@ def button_add():
 
 # FIXED: Changed command to call button_add directly instead of button_click('+')
 b_add = Button(window, text='+', width=12, height=2, command=button_add)
+# Operators
+def button_add():
+    n1 = e.get()
+    global math
+    math = 'addition'
+    global i
+    # CHANGED: Using float() so your decimal button doesn't crash the code
+    i = float(n1)
+    e.delete(0, END)
+
+# FIXED: Changed command to call button_add directly instead of button_click('+')
+b_add = Button(window, text='+', width=12, height=2, command=button_add)
 b_add.place(x=270, y=120)
 
 # Row 3
@@ -66,6 +78,17 @@ b8.place(x=90, y=180)
 b9 = Button(window, text='9', width=12, height=2, command=lambda: button_click(9))
 b9.place(x=180, y=180)
 
+# Operators
+def button_sub():
+    n1 = e.get()
+    global math
+    math = 'subtraction'
+    global i
+    i = float(n1)
+    e.delete(0, END)
+
+# FIXED: Changed command to call button_sub directly
+b_sub = Button(window, text='-', width=12, height=2, command=button_sub)
 # Operators
 def button_sub():
     n1 = e.get()
@@ -105,9 +128,39 @@ def button_equal():
     else:
         e.insert(0, ans)
 
+# Operators
+def button_equal():
+    n2 = e.get()
+    e.delete(0, END)
+    
+    # FIXED: Changed int(n2) to float(n2) to match standard math outputs
+    if math == 'addition':
+        ans = i + float(n2)
+    elif math == 'subtraction':
+        ans = i - float(n2)
+    elif math == 'multiplication':
+        ans = i * float(n2)
+    
+    # Clean up output: drops '.0' if it's a whole number
+    if ans.is_integer():
+        e.insert(0, int(ans))
+    else:
+        e.insert(0, ans)
+
 b_equal_btn = Button(window, text='=', width=12, height=2, command=button_equal)
 b_equal_btn.place(x=180, y=240)
 
+# Operators
+def button_mul():
+    n1 = e.get()
+    global math
+    math = 'multiplication'
+    global i
+    i = float(n1)
+    e.delete(0, END)
+
+# FIXED: Changed command to call button_mul directly
+b_mul = Button(window, text='*', width=12, height=2, command=button_mul)
 # Operators
 def button_mul():
     n1 = e.get()
