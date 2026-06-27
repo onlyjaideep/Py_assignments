@@ -7,22 +7,12 @@ window.geometry("400x400")
 
 # Functions for button clicks -----------------------------------
 def button_click(number):
-    current = e.get()
+    result = e.get()
     e.delete(0, END)
-    e.insert(0, str(current) + str(number))
+    e.insert(0, str(result) + str(number))
 
 def button_clear():
     e.delete(0, END)
-
-def button_equal():
-    try:
-        expression = e.get()
-        result = eval(expression) # Simple way for beginners to calculate strings
-        e.delete(0, END)
-        e.insert(0, result)
-    except:
-        e.delete(0, END)
-        e.insert(0, "Error")
 
 # Entry box -----------------------------------------------------
 e = Entry(window, width=60, borderwidth=5)
@@ -52,7 +42,18 @@ b5.place(x=90, y=120)
 b6 = Button(window, text='6', width=12, height=2, command=lambda: button_click(6))
 b6.place(x=180, y=120)
 
-b_add = Button(window, text='+', width=12, height=2, command=lambda: button_click('+'))
+# Operators
+def button_add():
+    n1 = e.get()
+    global math
+    math = 'addition'
+    global i
+    # CHANGED: Using float() so your decimal button doesn't crash the code
+    i = float(n1)
+    e.delete(0, END)
+
+# FIXED: Changed command to call button_add directly instead of button_click('+')
+b_add = Button(window, text='+', width=12, height=2, command=button_add)
 b_add.place(x=270, y=120)
 
 # Row 3
@@ -65,7 +66,17 @@ b8.place(x=90, y=180)
 b9 = Button(window, text='9', width=12, height=2, command=lambda: button_click(9))
 b9.place(x=180, y=180)
 
-b_sub = Button(window, text='-', width=12, height=2, command=lambda: button_click('-'))
+# Operators
+def button_sub():
+    n1 = e.get()
+    global math
+    math = 'subtraction'
+    global i
+    i = float(n1)
+    e.delete(0, END)
+
+# FIXED: Changed command to call button_sub directly
+b_sub = Button(window, text='-', width=12, height=2, command=button_sub)
 b_sub.place(x=270, y=180)
 
 # Row 4
@@ -75,11 +86,39 @@ b_dot.place(x=10, y=240)
 b0 = Button(window, text='0', width=12, height=2, command=lambda: button_click(0))
 b0.place(x=90, y=240)
 
-# FIXED: Removed lambda and ('=') because button_equal doesn't take arguments
+# Operators
+def button_equal():
+    n2 = e.get()
+    e.delete(0, END)
+    
+    # FIXED: Changed int(n2) to float(n2) to match standard math outputs
+    if math == 'addition':
+        ans = i + float(n2)
+    elif math == 'subtraction':
+        ans = i - float(n2)
+    elif math == 'multiplication':
+        ans = i * float(n2)
+    
+    # Clean up output: drops '.0' if it's a whole number
+    if ans.is_integer():
+        e.insert(0, int(ans))
+    else:
+        e.insert(0, ans)
+
 b_equal_btn = Button(window, text='=', width=12, height=2, command=button_equal)
 b_equal_btn.place(x=180, y=240)
 
-b_mul = Button(window, text='*', width=12, height=2, command=lambda: button_click('*'))
+# Operators
+def button_mul():
+    n1 = e.get()
+    global math
+    math = 'multiplication'
+    global i
+    i = float(n1)
+    e.delete(0, END)
+
+# FIXED: Changed command to call button_mul directly
+b_mul = Button(window, text='*', width=12, height=2, command=button_mul)
 b_mul.place(x=270, y=240)
 
 window.mainloop()
